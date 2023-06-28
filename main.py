@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_chat import message
 import openai
 
-openai.api_key = st.secrets['api_secret']
+openai.api_key = st.secrets['openai_api']
 
 
 # This function uses the OpenAI Completion API to generate a
