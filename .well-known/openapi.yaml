@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info:
+  title: ChatBot for Learning Sciences Research API
+  description: API for the ChatBot app that provides assistance and answers related to learning sciences research.
+  version: 'v1'
+servers:
+  - url: https://chatbot-learning-sciences.streamlit.app/
+paths:
+  /generate-response:
+    post:
+      operationId: generateResponse
+      summary: Generate a response from GPT-3.5
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+              example:
+                prompt: "Hello, how are you?"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string

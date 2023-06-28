@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "chatbot",
+  "name_for_human": "ChatBot for Learning Sciences Research",
+  "description_for_model": "Help users with learning sciences research. Provide assistance and answer questions related to the field.",
+  "description_for_human": "ChatBot for Learning Sciences Research",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://chatbot-learning-sciences.streamlit.app/openapi.yaml"
+  },
+  "logo_url": "https://your-domain.com/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://www.example.com/legal"
+}
