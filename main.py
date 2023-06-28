@@ -8,7 +8,7 @@ openai.api_key = st.secrets['openai_api_key']
 # A function to generate a response from GPT-3.5
 def generate_response(prompt):
     completions = openai.Completion.create(
-        engine="tgpt-3.5-turbo",
+        engine="gpt-3.5-turbo",
         prompt=prompt,
         max_tokens=256,
         n=1,
