@@ -9,7 +9,7 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://chatbot-learning-sciences.streamlit.app/openapi.yaml"
+    "url": "https://chatbot-learning-sciences.streamlit.app/.well-known/openapi.yaml"
   },
   "logo_url": "https://your-domain.com/logo.png",
   "contact_email": "support@example.com",
