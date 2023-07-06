@@ -168,7 +168,7 @@ def generate_response(prompt_input):
     memo = qa_with_sources.combine_documents_chain.memory
 
     message_output = get_answer_citations_sources(res)
-    return memo
+    return str(memo)
     # return message_output
 
 
