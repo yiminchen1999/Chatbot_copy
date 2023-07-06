@@ -12,8 +12,6 @@ from langchain.memory import ConversationBufferMemory
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
 
-openai.api_key = st.secrets['openai_api_key']
-
 model_name = 'text-embedding-ada-002'
 embed = OpenAIEmbeddings(
     model=model_name,
@@ -22,8 +20,9 @@ embed = OpenAIEmbeddings(
 
 index_name = 'cscl-langchain-retrieval-augmentation'
 
+# find API key in console at app.pinecone.io
 PINECONE_API_KEY = 'a62589b4-c4d2-4f56-8812-342f7ac869f7'
-
+# find ENV (cloud region) next to API key in console
 PINECONE_ENVIRONMENT = 'us-west4-gcp-free'
 
 pinecone.init(
@@ -33,17 +32,14 @@ pinecone.init(
 
 text_field = "text"
 
+# switch back to normal index for langchain
 index = pinecone.Index(index_name)
 
 vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-llm = ChatOpenAI(
-    openai_api_key=openai.api_key,
-    model_name='gpt-3.5-turbo',
-    temperature=0.0
-)
+openai.api_key = st.secrets['openai_api_key']
 
 template = """Given the following extracted parts of a long document (delimited by <sm></sm>) and the chat history (delimited by <hs></hs>), create a final answer to the question with references ("SOURCES").
 If you don't know the answer, just say that you don't know. Don't try to make up an answer.
@@ -104,54 +100,14 @@ prompt = PromptTemplate(
     template=template,
 )
 
-# def get_answer_citations_sources(result):
-#     answer = result['answer']
-#     unique_citations = {}
 
-#     for doc in result['source_documents']:
-#         citation = doc.metadata.get('citation')
-#         source = doc.metadata.get('source')
-#         if citation:
-#             unique_citations[citation] = source
-
-#     citations_sources = []
-#     for citation, source in unique_citations.items():
-#         citations_sources.append({
-#             'citation': citation,
-#             'source': source
-#         })
-
-#     return {
-#         'answer': answer,
-#         'citations_sources': citations_sources
-#     }
-
-def get_answer_citations_sources(result):
-    answer = result['answer']
-    unique_citations = {}
-
-    # Extract the unique citations and their corresponding sources
-    for doc in result['source_documents']:
-        citation = doc.metadata.get('citation')
-        source = doc.metadata.get('source')
-        if citation:
-            unique_citations[citation] = source
-
-    # Create a string to store the answer, citations, and sources
-    result_string = ""
-
-    # Append the answer to the result string
-    result_string += answer + "\n\n"
-
-    # Append the unique citations and their corresponding sources to the result string
-    for citation, source in unique_citations.items():
-        result_string += "- Citation: " + citation + "\n"
-        result_string += "  Source: " + source + "\n\n"
-
-    return result_string
-
-
-def generate_response(prompt_input):
+def load_chain():
+    """Logic for loading the chain you want to use should go here."""
+    llm = ChatOpenAI(
+        openai_api_key=openai.api_key,
+        model_name='gpt-3.5-turbo',
+        temperature=0.0
+    )
     qa_with_sources = RetrievalQAWithSourcesChain.from_chain_type(
         llm=llm,
         chain_type="stuff",
@@ -163,44 +119,37 @@ def generate_response(prompt_input):
         },
         return_source_documents=True
     )
-
-    res = qa_with_sources(prompt_input)
-    memo = qa_with_sources.combine_documents_chain.memory
-
-    message_output = get_answer_citations_sources(res)
-    return str(memo)
-    # return message_output
+    return qa_with_sources
 
 
-# Site title
-st.title("🤖🔬 ChatBot for Learning Sciences Research")
+chain = load_chain()
 
-# Initialize output session state
-if 'generated' not in st.session_state:
-    st.session_state['generated'] = []
+# From here down is all the StreamLit UI.
+st.set_page_config(page_title="LangChain Demo", page_icon=":robot:")
+st.header("LangChain Demo")
 
-# Initialize input session state
-if 'past' not in st.session_state:
-    st.session_state['past'] = []
+if "generated" not in st.session_state:
+    st.session_state["generated"] = []
+
+if "past" not in st.session_state:
+    st.session_state["past"] = []
 
 
-# Get user input
 def get_text():
-    input_text = st.text_input("You: ", "what is collaborative learning?", key="question")
+    input_text = st.text_input("You: ", "Hello, how are you?", key="input")
     return input_text
 
 
 user_input = get_text()
 
-# Generate response
 if user_input:
-    output = generate_response(user_input)
+    output = chain.run(input=user_input)
+
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
 
-# Display conversation
-if st.session_state['generated']:
+if st.session_state["generated"]:
 
-    for i in range(len(st.session_state['generated']) - 1, -1, -1):
+    for i in range(len(st.session_state["generated"]) - 1, -1, -1):
         message(st.session_state["generated"][i], key=str(i))
-        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+        message(st.session_state["past"][i], is_user=True, key=str(i) + "_user")
