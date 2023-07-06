@@ -165,9 +165,11 @@ def generate_response(prompt_input):
     )
 
     res = qa_with_sources(prompt_input)
+    memo = qa_with_sources.combine_documents_chain.memory
 
     message_output = get_answer_citations_sources(res)
-    return message_output
+    return memo
+    # return message_output
 
 
 # Site title
