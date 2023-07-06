@@ -143,8 +143,8 @@ def get_text():
 user_input = get_text()
 
 if user_input:
-    output01 = chain(user_input)
-    output = str(outpu01)
+    output = chain(user_input)["result"]
+    # output = str(outpu01)
 
     st.session_state.past.append(user_input)
     st.session_state.generated.append(output)
