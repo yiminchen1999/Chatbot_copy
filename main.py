@@ -22,9 +22,8 @@ embed = OpenAIEmbeddings(
 
 index_name = 'cscl-langchain-retrieval-augmentation'
 
-# find API key in console at app.pinecone.io
 PINECONE_API_KEY = 'a62589b4-c4d2-4f56-8812-342f7ac869f7'
-# find ENV (cloud region) next to API key in console
+
 PINECONE_ENVIRONMENT = 'us-west4-gcp-free'
 
 pinecone.init(
