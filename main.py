@@ -104,27 +104,51 @@ prompt = PromptTemplate(
     template=template,
 )
 
+# def get_answer_citations_sources(result):
+#     answer = result['answer']
+#     unique_citations = {}
+
+#     for doc in result['source_documents']:
+#         citation = doc.metadata.get('citation')
+#         source = doc.metadata.get('source')
+#         if citation:
+#             unique_citations[citation] = source
+
+#     citations_sources = []
+#     for citation, source in unique_citations.items():
+#         citations_sources.append({
+#             'citation': citation,
+#             'source': source
+#         })
+
+#     return {
+#         'answer': answer,
+#         'citations_sources': citations_sources
+#     }
+
 def get_answer_citations_sources(result):
     answer = result['answer']
     unique_citations = {}
 
+    # Extract the unique citations and their corresponding sources
     for doc in result['source_documents']:
         citation = doc.metadata.get('citation')
         source = doc.metadata.get('source')
         if citation:
             unique_citations[citation] = source
 
-    citations_sources = []
-    for citation, source in unique_citations.items():
-        citations_sources.append({
-            'citation': citation,
-            'source': source
-        })
+    # Create a string to store the answer, citations, and sources
+    result_string = ""
 
-    return {
-        'answer': answer,
-        'citations_sources': citations_sources
-    }
+    # Append the answer to the result string
+    result_string += answer + "\n\n"
+
+    # Append the unique citations and their corresponding sources to the result string
+    for citation, source in unique_citations.items():
+        result_string += "- Citation: " + citation + "\n"
+        result_string += "  Source: " + source + "\n\n"
+
+    return result_string
 
 
 def generate_response(prompt_input):
