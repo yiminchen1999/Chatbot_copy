@@ -33,7 +33,6 @@ pinecone.init(
 
 text_field = "text"
 
-# switch back to normal index for langchain
 index = pinecone.Index(index_name)
 
 vectorstore = Pinecone(
@@ -105,24 +104,6 @@ prompt = PromptTemplate(
     template=template,
 )
 
-
-# def print_answer_citations_sources(result):
-#     # Print the answer
-#     print(result['answer'])
-#
-#     # Extract the unique citations and their corresponding sources
-#     unique_citations = {}
-#     for doc in result['source_documents']:
-#         citation = doc.metadata.get('citation')
-#         source = doc.metadata.get('source')
-#         if citation:
-#             unique_citations[citation] = source
-#
-#     # Print the unique citations and their corresponding sources
-#     for citation, source in unique_citations.items():
-#         print("- Citation:", citation)
-#         print("  Source:", source)
-#         print()
 def get_answer_citations_sources(result):
     answer = result['answer']
     unique_citations = {}
@@ -146,11 +127,6 @@ def get_answer_citations_sources(result):
     }
 
 
-# res
-
-# qa_with_sources.combine_documents_chain.memory
-
-# A function to generate a response from GPT-3.5
 def generate_response(prompt_input):
     qa_with_sources = RetrievalQAWithSourcesChain.from_chain_type(
         llm=llm,
