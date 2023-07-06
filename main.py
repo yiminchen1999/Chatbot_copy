@@ -39,7 +39,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-openai.api_key = st.secrets['openai_api_key']
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
 template = """Given the following extracted parts of a long document (delimited by <sm></sm>) and the chat history (delimited by <hs></hs>), create a final answer to the question with references ("SOURCES").
 If you don't know the answer, just say that you don't know. Don't try to make up an answer.
