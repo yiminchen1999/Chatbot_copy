@@ -43,7 +43,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-memory = ConversationBufferWindowMemory(memory_key='chat_history, k=3, return_messages=True, output_key='answer')
+memory = ConversationBufferWindowMemory(memory_key='chat_history', k=3, return_messages=True, output_key='answer')
 
 
 def print_answer_citations_sources(result):
