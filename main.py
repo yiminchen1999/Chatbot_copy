@@ -43,7 +43,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-memory = ConversationBufferWindowMemory(k=3, return_messages=True, output_key='answer')
+memory = ConversationBufferWindowMemory(memory_key='chat_history, k=3, return_messages=True, output_key='answer')
 
 
 def print_answer_citations_sources(result):
@@ -80,7 +80,7 @@ if 'requests' not in st.session_state:
     st.session_state['requests'] = []
 
 if 'buffer_memory' not in st.session_state:
-    st.session_state.buffer_memory = ConversationBufferWindowMemory(k=3, return_messages=True)
+    st.session_state.buffer_memory = memory
 
 
 qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=openai.api_key),
@@ -103,7 +103,7 @@ with textcontainer:
         #     st.write(refined_query)
         #     context = find_match(refined_query)
         #     # print(context)
-        res = qa(f"Query:\n{query}")
+        res = qa({"question": query})
         response = print_answer_citations_sources(res)
         st.session_state.requests.append(query)
         st.session_state.responses.append(response)
