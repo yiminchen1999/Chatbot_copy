@@ -5,8 +5,8 @@ import streamlit as st
 openai.api_key = ""
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-pinecone.init(api_key='', environment='us-east-1-aws')
-index = pinecone.Index('langchain-chatbot')
+pinecone.init(api_key='92e48ab1-885c-4c59-bf34-b16ad122e2c7', environment='asia-southeast1-gcp-free')
+index = pinecone.Index('cscl-langchain-retrieval-augmentation')
 
 def find_match(input):
     input_em = model.encode(input).tolist()
