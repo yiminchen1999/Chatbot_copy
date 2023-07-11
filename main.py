@@ -15,9 +15,9 @@ import os
 import streamlit as st
 
 openai.api_key = st.secrets['openai_api_key']
-pc.api_key = st.secrets['pc_api_key']
-pc.env = st.secrets['pc_env']
-pc.index = st.secrets['pc_index']
+pc_api_key = st.secrets['pc_api_key']
+pc_env = st.secrets['pc_env']
+pc_index = st.secrets['pc_index']
 
 
 model_name = 'text-embedding-ada-002'
@@ -34,10 +34,10 @@ embed = OpenAIEmbeddings(
 # PINECONE_ENVIRONMENT = 'asia-southeast1-gcp-free'
 
 pinecone.init(      
-	api_key = pc.api_key,      
-	environment = pc.env      
+	api_key = pc_api_key,      
+	environment = pc_env      
 )      
-index = pinecone.Index(pc.index)
+index = pinecone.Index(pc_index)
 
 text_field = "text"
 
