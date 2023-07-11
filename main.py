@@ -2,7 +2,7 @@ from streamlit_chat import message
 from langchain.embeddings.openai import OpenAIEmbeddings
 import pinecone
 from langchain.vectorstores import Pinecone
-from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory import ConversationSummaryBufferMemory
 from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
 from utils import *
@@ -43,7 +43,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-memory = ConversationBufferWindowMemory(memory_key='chat_history', k=3, return_messages=True, output_key='answer')
+memory = ConversationSummaryBufferMemory(memory_key='chat_history', max_token_limit=150, return_messages=True, output_key='answer')
 
 
 def print_answer_citations_sources(result):
