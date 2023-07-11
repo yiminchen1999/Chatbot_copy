@@ -6,10 +6,10 @@ from langchain.memory import ConversationSummaryBufferMemory
 from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
 from utils import *
-from langchain import PromptTemplate
-from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.chat_models import ChatOpenAI
-from langchain.chains import RetrievalQA
+# from langchain import PromptTemplate
+# from langchain.chains import RetrievalQAWithSourcesChain
+# from langchain.chat_models import ChatOpenAI
+# from langchain.chains import RetrievalQA
 import openai
 import os
 import streamlit as st
