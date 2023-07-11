@@ -15,6 +15,10 @@ import os
 import streamlit as st
 
 openai.api_key = st.secrets['openai_api_key']
+pc.api_key = st.secrets['pc_api_key']
+pc.env = st.secrets['pc_env']
+pc.index = st.secrets['pc_index']
+
 
 model_name = 'text-embedding-ada-002'
 embed = OpenAIEmbeddings(
@@ -22,22 +26,23 @@ embed = OpenAIEmbeddings(
     openai_api_key=openai.api_key
 )
 
-index_name = 'cscl-langchain-retrieval-augmentation'
+# index_name = 'cscl-langchain-retrieval-augmentation'
 
 # find API key in console at app.pinecone.io
-PINECONE_API_KEY = '92e48ab1-885c-4c59-bf34-b16ad122e2c7'
+# PINECONE_API_KEY = '92e48ab1-885c-4c59-bf34-b16ad122e2c7'
 # find ENV (cloud region) next to API key in console
-PINECONE_ENVIRONMENT = 'asia-southeast1-gcp-free'
+# PINECONE_ENVIRONMENT = 'asia-southeast1-gcp-free'
 
-pinecone.init(
-    api_key=PINECONE_API_KEY,
-    environment=PINECONE_ENVIRONMENT
-)
+pinecone.init(      
+	api_key = pc.api_key,      
+	environment = pc.env      
+)      
+index = pinecone.Index(pc.index)
 
 text_field = "text"
 
 # switch back to normal index for langchain
-index = pinecone.Index(index_name)
+# index = pinecone.Index(index_name)
 
 vectorstore = Pinecone(
     index, embed.embed_query, text_field
