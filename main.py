@@ -43,7 +43,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-memory = ConversationSummaryBufferMemory(memory_key='chat_history', max_token_limit=150, return_messages=True, output_key='answer')
+memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY), max_token_limit=150, memory_key='chat_history', return_messages=True, output_key='answer')
 
 
 def print_answer_citations_sources(result):
