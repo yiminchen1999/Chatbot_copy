@@ -14,10 +14,15 @@ import openai
 import os
 import streamlit as st
 
-openai.api_key = st.secrets['openai_api_key']
-pc_api_key = st.secrets['pc_api_key']
-pc_env = st.secrets['pc_env']
-pc_index = st.secrets['pc_index']
+openai.api_key = "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"
+pc_api_key = "af46e200-9246-45a0-bc1d-3cdc544b9d2b"
+pc_env = "asia-southeast1-gcp-free"
+pc_index = "cscl-langchain-retrieval-augmentation"
+
+# openai.api_key = st.secrets['openai_api_key']
+# pc_api_key = st.secrets['pc_api_key']
+# pc_env = st.secrets['pc_env']
+# pc_index = st.secrets['pc_index']
 
 
 model_name = 'text-embedding-ada-002'
