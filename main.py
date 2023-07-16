@@ -14,13 +14,7 @@ import openai
 import os
 import streamlit as st
 
-OPENAI_API_KEY = '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'
-# openai.api_key = OPENAI_API_KEY
-pc_api_key = "af46e200-9246-45a0-bc1d-3cdc544b9d2b"
-pc_env = "asia-southeast1-gcp-free"
-pc_index = "cscl-langchain-retrieval-augmentation"
-
-# openai.api_key = st.secrets['openai_api_key']
+# OPENAI_API_KEY = st.secrets['openai_api_key']
 # pc_api_key = st.secrets['pc_api_key']
 # pc_env = st.secrets['pc_env']
 # pc_index = st.secrets['pc_index']
