@@ -18,13 +18,17 @@ import streamlit as st
 # pc_api_key = st.secrets['pc_api_key']
 # pc_env = st.secrets['pc_env']
 # pc_index = st.secrets['pc_index']
-from boto.s3.connection import S3Connection
-s3 = S3Connection(os.environ['OPENAI_API_KEY'], os.environ['pc_api_key'], os.environ['pc_env'], os.environ['pc_index'])
-b = s3.create_bucket('mbdkshagdjacd')
-OPENAI_API_KEY = b.get_key('OPENAI_API_KEY')
-pc_api_key = b.get_key['pc_api_key']
-pc_env = b.get_key['pc_env']
-pc_index = b.get_key['pc_index']
+# from boto.s3.connection import S3Connection
+# s3 = S3Connection(os.environ['OPENAI_API_KEY'], os.environ['pc_api_key'], os.environ['pc_env'], os.environ['pc_index'])
+# b = s3.create_bucket('mbdkshagdjacd')
+# OPENAI_API_KEY = b.get_key('OPENAI_API_KEY')
+# pc_api_key = b.get_key['pc_api_key']
+# pc_env = b.get_key['pc_env']
+# pc_index = b.get_key['pc_index']
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+pc_api_key = os.environ['pc_api_key']
+pc_env = os.environ['pc_env']
+pc_index = os.environ['pc_index']
 
 model_name = 'text-embedding-ada-002'
 embed = OpenAIEmbeddings(
