@@ -20,7 +20,7 @@ import streamlit as st
 # pc_index = st.secrets['pc_index']
 from boto.s3.connection import S3Connection
 s3 = S3Connection(os.environ['OPENAI_API_KEY'], os.environ['pc_api_key'], os.environ['pc_env'], os.environ['pc_index'])
-b = s3.create_bucket('mbucket10220716')
+b = s3.create_bucket('my-bucket')
 OPENAI_API_KEY = b.get_key('OPENAI_API_KEY')
 pc_api_key = b.get_key['pc_api_key']
 pc_env = b.get_key['pc_env']
