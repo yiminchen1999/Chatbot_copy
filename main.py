@@ -15,7 +15,7 @@ import os
 import streamlit as st
 
 OPENAI_API_KEY = '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'
-openai.api_key = OPENAI_API_KEY
+# openai.api_key = OPENAI_API_KEY
 pc_api_key = "af46e200-9246-45a0-bc1d-3cdc544b9d2b"
 pc_env = "asia-southeast1-gcp-free"
 pc_index = "cscl-langchain-retrieval-augmentation"
@@ -29,7 +29,7 @@ pc_index = "cscl-langchain-retrieval-augmentation"
 model_name = 'text-embedding-ada-002'
 embed = OpenAIEmbeddings(
     model=model_name,
-    openai_api_key=openai.api_key
+    openai_api_key=OPENAI_API_KEY
 )
 
 # index_name = 'cscl-langchain-retrieval-augmentation'
@@ -54,7 +54,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=openai.api_key), max_token_limit=150, memory_key='chat_history', return_messages=True, output_key='answer')
+memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY), max_token_limit=150, memory_key='chat_history', return_messages=True, output_key='answer')
 
 
 def print_answer_citations_sources(result):
@@ -94,7 +94,7 @@ if 'buffer_memory' not in st.session_state:
     st.session_state.buffer_memory = memory
 
 
-qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=openai.api_key),
+qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY),
                                            vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                            verbose=True,
                                            return_source_documents=True)
