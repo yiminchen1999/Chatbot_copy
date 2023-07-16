@@ -14,7 +14,7 @@ import openai
 import os
 import streamlit as st
 
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = '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'
 # openai.api_key = OPENAI_API_KEY
 pc_api_key = "af46e200-9246-45a0-bc1d-3cdc544b9d2b"
 pc_env = "asia-southeast1-gcp-free"
