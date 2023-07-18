@@ -129,11 +129,12 @@ with textcontainer:
         #     st.write(refined_query)
         #     context = find_match(refined_query)
         #     # print(context)
-	    res = qa({"question": query})
+	    # res = qa({"question": query})
 	    # st.write(res)
 	    # memo = qa.memory
 	    # st.write(memo)
-	    response = print_answer_citations_sources(res)
+	    # response = print_answer_citations_sources(res)
+	    response = 'Hello!'
 	    st.session_state.requests.append(query)
 	    st.session_state.responses.append(response)
 with response_container:
