@@ -14,7 +14,7 @@ import openai
 import os
 import streamlit as st
 
-prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
+prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
 
 {context}
 
@@ -130,7 +130,7 @@ with textcontainer:
         #     context = find_match(refined_query)
         #     # print(context)
 	    res = qa({"question": query})
-	    st.write(res)
+	    # st.write(res)
 	    # memo = qa.memory
 	    # st.write(memo)
 	    response = print_answer_citations_sources(res)
