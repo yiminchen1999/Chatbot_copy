@@ -109,9 +109,10 @@ if 'buffer_memory' not in st.session_state:
 
 
 qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY),
-                                           vectorstore.as_retriever(qa_template=QA_PROMPT_ERROR), memory=st.session_state.buffer_memory,
+                                           vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                            verbose=True,
-                                           return_source_documents=True)
+                                           return_source_documents=True,
+					   combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
 # container for chat history
 response_container = st.container()
 # container for text box
