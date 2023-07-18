@@ -20,7 +20,7 @@ prompt_template = """Use the following pieces of context to answer the question 
 
 Question: {question}
 Helpful Answer:"""
-QA_PROMPT = PromptTemplate(
+QA_PROMPT_ERROR = PromptTemplate(
     template=prompt_template, input_variables=["context", "question"]
 )
 
@@ -109,7 +109,7 @@ if 'buffer_memory' not in st.session_state:
 
 
 qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY),
-                                           vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
+                                           vectorstore.as_retriever(qa_template=QA_PROMPT_ERROR), memory=st.session_state.buffer_memory,
                                            verbose=True,
                                            return_source_documents=True)
 # container for chat history
