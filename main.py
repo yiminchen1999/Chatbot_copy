@@ -121,8 +121,7 @@ textcontainer = st.container()
 with textcontainer:
     query = st.text_input("Query: ", key="input")
     if query:
-        with st.spinner("typing..."):
-		st.write(memory)
+        # with st.spinner("typing..."):
         #     conversation_string = get_conversation_string()
         #     # st.code(conversation_string)
         #     refined_query = query_refiner(conversation_string, query)
@@ -131,6 +130,8 @@ with textcontainer:
         #     context = find_match(refined_query)
         #     # print(context)
         res = qa({"question": query})
+	memo = qa.combine_documents_chain.memory
+	st.write(memo)
         response = print_answer_citations_sources(res)
         st.session_state.requests.append(query)
         st.session_state.responses.append(response)
