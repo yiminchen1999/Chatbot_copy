@@ -121,6 +121,7 @@ textcontainer = st.container()
 with textcontainer:
     query = st.text_input("Query: ", key="input")
     if query:
+	st.write(st.session_state.buffer_memory)
         # with st.spinner("typing..."):
         #     conversation_string = get_conversation_string()
         #     # st.code(conversation_string)
@@ -129,7 +130,6 @@ with textcontainer:
         #     st.write(refined_query)
         #     context = find_match(refined_query)
         #     # print(context)
-	st.write(st.session_state.buffer_memory)
         res = qa({"question": query})
         response = print_answer_citations_sources(res)
         st.session_state.requests.append(query)
