@@ -6,13 +6,23 @@ from langchain.memory import ConversationSummaryBufferMemory
 from langchain.llms import OpenAI
 from langchain.chains import ConversationalRetrievalChain
 # from utils import *
-# from langchain import PromptTemplate
+from langchain import PromptTemplate
 # from langchain.chains import RetrievalQAWithSourcesChain
 # from langchain.chat_models import ChatOpenAI
 # from langchain.chains import RetrievalQA
 import openai
 import os
 import streamlit as st
+
+prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
+
+{context}
+
+Question: {question}
+Helpful Answer:"""
+QA_PROMPT = PromptTemplate(
+    template=prompt_template, input_variables=["context", "question"]
+)
 
 # OPENAI_API_KEY = st.secrets['openai_api_key']
 # pc_api_key = st.secrets['pc_api_key']
