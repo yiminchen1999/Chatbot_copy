@@ -89,47 +89,18 @@ response_container = st.container()
 
 textcontainer = st.container()
 
-class MyThread(threading.Thread):
-    def __init__(self, func, args=()):
-        super(MyThread, self).__init__()
-        self.func = func
-        self.args = args
-    def run(self):
-        self.result = self.func(*self.args)
-    def get_result(self):
-        threading.Thread.join(self)
-        try:
-            return self.result
-        except Exception:
-            return None
-
-def st_spinner(t):
-    with st.spinner("Processing..."):
-        time.sleep(t)
-        st.write("Searching in the database...")
-        time.sleep(t)
-        st.write("Generating response...")
-        time.sleep(t)
-        st.write("Generating citation...")
-
-def get_res(query):
-    res = qa({"question": query})
-    response = print_answer_citations_sources(res)
-    return res
-
 with textcontainer:
     query = st.text_input("Query: ", key="input")
     if query:
-	    t1 = MyThread(st_spinner,(5,))
-	    t2 = MyThread(get_res,(query,))
-	    t1.start()
-	    t2.start()
-	    # t1.join()
-	    # t2.join()
-	    response = t1.get_result()
-	    st.write(response)
-	    # res = qa({"question": query})
-	    # response = print_answer_citations_sources(res)
+	    with st.spinner("Processing..."):
+		    time.sleep(5)
+		    st.write("Searching in the database...")
+		    time.sleep(5)
+		    st.write("Generating response...")
+		    time.sleep(5)
+		    st.write("Generating citation...")
+		    res = qa({"question": query})
+		    response = print_answer_citations_sources(res)
 	    st.session_state.requests.append(query)
 	    st.session_state.responses.append(response)
 with response_container:
