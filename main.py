@@ -11,16 +11,6 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain import PromptTemplate
 import os
 
-prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
-
-{context}
-
-Question: {question}
-Helpful Answer:"""
-QA_PROMPT_ERROR = PromptTemplate(
-    template=prompt_template, input_variables=["context", "question"]
-)
-
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
 pc_api_key = os.environ['pc_api_key']
 pc_env = os.environ['pc_env']
@@ -45,6 +35,34 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
+# Site title
+st.title("🤖🔬 ChatBot for Learning Sciences Research")
+
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
+
+for msg in st.session_state.messages:
+    st.chat_message(msg.role).write(msg.content)
+
+memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY), max_token_limit=150,
+                                         memory_key='chat_history', return_messages=True, output_key='answer')
+
+
+if 'buffer_memory' not in st.session_state:
+    st.session_state.buffer_memory = memory
+
+
+prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
+
+{context}
+
+Question: {question}
+Helpful Answer:"""
+QA_PROMPT_ERROR = PromptTemplate(
+    template=prompt_template, input_variables=["context", "question"]
+)
+
 
 class StreamHandler(BaseCallbackHandler):
     def __init__(self, container, initial_text=""):
@@ -54,22 +72,6 @@ class StreamHandler(BaseCallbackHandler):
     def on_llm_new_token(self, token: str, **kwargs) -> None:
         self.text += token
         self.container.markdown(self.text)
-
-
-memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY), max_token_limit=150,
-                                         memory_key='chat_history', return_messages=True, output_key='answer')
-
-# Site title
-st.title("🤖🔬 ChatBot for Learning Sciences Research")
-
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
-
-for msg in st.session_state.messages:
-    st.chat_message(msg.role).write(msg.content)
-
-if 'buffer_memory' not in st.session_state:
-    st.session_state.buffer_memory = memory
 
 stream_handler = StreamHandler(st.empty())
 # llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
