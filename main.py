@@ -108,5 +108,6 @@ if prompt := st.chat_input():
                                            combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=response))
+        st.write(response)
+        st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
 
