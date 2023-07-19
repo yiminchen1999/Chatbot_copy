@@ -92,6 +92,7 @@ def print_answer_citations_sources(result):
 
     return output_answer
 
+# combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR}
 
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
@@ -104,8 +105,7 @@ if prompt := st.chat_input():
         qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
                                            vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                            verbose=True,
-                                           return_source_documents=True,
-                                           combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
+                                           return_source_documents=True)
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
         st.write(response)
