@@ -73,15 +73,6 @@ class StreamHandler(BaseCallbackHandler):
         self.text += token
         self.container.markdown(self.text)
 
-stream_handler = StreamHandler(st.empty())
-# llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
-
-qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
-                                           vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
-                                           verbose=True,
-                                           return_source_documents=True,
-                                           combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
-
 
 def print_answer_citations_sources(result):
     output_answer = ""
@@ -108,6 +99,13 @@ if prompt := st.chat_input():
 
     with st.chat_message("assistant"):
         # response = llm(st.session_state.messages)
+        stream_handler = StreamHandler(st.empty())
+        # llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
+        qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
+                                           vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
+                                           verbose=True,
+                                           return_source_documents=True,
+                                           combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
         st.session_state.messages.append(ChatMessage(role="assistant", content=response))
