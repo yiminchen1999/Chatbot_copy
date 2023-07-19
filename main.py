@@ -53,14 +53,30 @@ if 'buffer_memory' not in st.session_state:
     st.session_state.buffer_memory = memory
 
 
-prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
+CONDENSE_PROMPT = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
+
+Chat History:
+{chat_history}
+Follow Up Input: {question}
+Standalone question:"""
+
+CONDENSEprompt = PromptTemplate(input_variables=["chat_history", "question"], template=CONDENSE_PROMPT)
+
+
+QA_PROMPT_DOCUMENT_CHAT = """You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.
+If the question is not related to the context, politely respond that you are teached to only answer questions that are related to the context.
+If you don't know the answer, just say 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?'. DO NOT try to make up an answer.
+Answer in markdown.
+Use as much detail as possible when responding and try to make answer in markdown format as much as possible.
 
 {context}
 
 Question: {question}
-Helpful Answer:"""
+Answer in markdown format:"""
+
+
 QA_PROMPT_ERROR = PromptTemplate(
-    template=prompt_template, input_variables=["context", "question"]
+    template=QA_PROMPT_DOCUMENT_CHAT, input_variables=["context", "question"]
 )
 
 
@@ -106,6 +122,7 @@ if prompt := st.chat_input():
                                                    vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                                    verbose=True,
                                                    return_source_documents=True, 
+                                                   condense_question_prompt = CONDENSEprompt,
                                                    combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
