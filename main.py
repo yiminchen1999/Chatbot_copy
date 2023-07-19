@@ -127,5 +127,8 @@ with response_container:
 
 
 if st.button('Click to see where is this response from'):
-	details = extract_page_content_and_title(res)
-	st.write(details)
+	if res:
+		details = extract_page_content_and_title(res)
+		st.write(details)
+	else:
+		st.write("Please ask a question before you click the button.")
