@@ -63,8 +63,9 @@ Standalone question:"""
 CONDENSEprompt = PromptTemplate(input_variables=["chat_history", "question"], template=CONDENSE_PROMPT)
 
 
+# If the question is not related to the context, politely respond that you are teached to only answer questions that are related to the context.
+
 QA_PROMPT_DOCUMENT_CHAT = """You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.
-If the question is not related to the context, politely respond that you are teached to only answer questions that are related to the context.
 If you don't know the answer, just say 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?'. DO NOT try to make up an answer.
 Answer in markdown.
 Use as much detail as possible when responding and try to make answer in markdown format as much as possible.
@@ -121,9 +122,9 @@ if prompt := st.chat_input():
         qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
                                                    vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                                    verbose=True,
-                                                   return_source_documents=True)
-                                                   # condense_question_prompt = CONDENSEprompt,
-                                                   # combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
+                                                   return_source_documents=True,
+                                                   condense_question_prompt = CONDENSEprompt,
+                                                   combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
         st.write(response)
