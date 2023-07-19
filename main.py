@@ -117,6 +117,9 @@ with textcontainer:
 			st.write("Generating citation...")
 			res = qa({"question": query})
 			response = print_answer_citations_sources(res)
+			if st.button('Click to see where is this response from'):
+				details = extract_page_content_and_title(res)
+				st.write(details)
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
 		
@@ -128,9 +131,9 @@ with response_container:
             if i < len(st.session_state['requests']):
                 message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
-if response:
-	if st.button('Click to see where is this response from'):
-		details = extract_page_content_and_title(res)
-		st.write(details)
-else:
-	st.write("Please ask a question before you click the button.")
+# if response:
+# 	if st.button('Click to see where is this response from'):
+# 		details = extract_page_content_and_title(res)
+# 		st.write(details)
+# else:
+# 	st.write("Please ask a question before you click the button.")
