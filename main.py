@@ -124,16 +124,18 @@ with response_container:
 	if st.session_state['responses']:
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
-			detail_info = st.button('Click to see where is this response from', key = 'd_info')
-			if detail_info:
-				details = extract_page_content_and_title(res)
-				st.write(details)
+			# detail_info = st.button('Click to see where is this response from', key = 'd_info')
+			# if detail_info:
+			# 	details = extract_page_content_and_title(res)
+			# 	st.write(details)
 			if i < len(st.session_state['requests']):
 				message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
-# if response:
-# 	if st.button('Click to see where is this response from'):
-# 		details = extract_page_content_and_title(res)
-# 		st.write(details)
-# else:
-# 	st.write("Please ask a question before you click the button.")
+
+detail_info = st.button('Click to see where is this response from', key = 'd_info')
+if response:
+	if detail_info:
+		details = extract_page_content_and_title(res)
+		st.write(details)
+	else:
+		st.write("Please ask a question before you click the button.")
