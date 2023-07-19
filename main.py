@@ -59,6 +59,18 @@ class StreamHandler(BaseCallbackHandler):
 memory = ConversationSummaryBufferMemory(llm=OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY), max_token_limit=150,
                                          memory_key='chat_history', return_messages=True, output_key='answer')
 
+# Site title
+st.title("🤖🔬 ChatBot for Learning Sciences Research")
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
+
+for msg in st.session_state.messages:
+    st.chat_message(msg.role).write(msg.content)
+
+if 'buffer_memory' not in st.session_state:
+    st.session_state.buffer_memory = memory
+
 stream_handler = StreamHandler(st.empty())
 # llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
 
@@ -87,15 +99,6 @@ def print_answer_citations_sources(result):
 
     return output_answer
 
-
-# Site title
-st.title("🤖🔬 ChatBot for Learning Sciences Research")
-
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
-
-for msg in st.session_state.messages:
-    st.chat_message(msg.role).write(msg.content)
 
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
