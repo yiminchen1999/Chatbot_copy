@@ -77,7 +77,7 @@ def extract_page_content_and_title(result):
 
         # Append the extracted 'page_content' and 'title' to the string
         if page_content and title:
-            extracted_string += f"Title: {title}\nContent Location: {page_content}\n\n"
+            extracted_string += f"Title: {title}\n\n\n Content Location: {page_content}\n\n"
 
     return extracted_string
 
@@ -116,14 +116,14 @@ with textcontainer:
 		    time.sleep(1)
 		    st.write("Generating citation...")
 		    res = qa({"question": query})
-		    if st.button('Click to see where is this response from'):
-			    details = extract_page_content_and_title(res)
-			    st.write(details)
 		    # else:
 			    # st.write("Please ask a question before you click the button.")
 		    response = print_answer_citations_sources(res)
 	    st.session_state.requests.append(query)
 	    st.session_state.responses.append(response)
+	    if st.button('Click to see where is this response from'):
+		    details = extract_page_content_and_title(res)
+		    st.write(details)
 with response_container:
     if st.session_state['responses']:
 
