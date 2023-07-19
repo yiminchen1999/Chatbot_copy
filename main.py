@@ -114,12 +114,9 @@ with textcontainer:
 			time.sleep(1)
 			st.write("Generating response...")
 			time.sleep(1)
-			st.write("Generating citation...")
+			st.write("Formatting response...")
 			res = qa({"question": query})
 			response = print_answer_citations_sources(res)
-			if st.button('Click to see where is this response from'):
-				details = extract_page_content_and_title(res)
-				st.write(details)
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
 		
@@ -127,8 +124,12 @@ with response_container:
     if st.session_state['responses']:
 
         for i in range(len(st.session_state['responses'])):
-            message(st.session_state['responses'][i], key=str(i))
-            if i < len(st.session_state['requests']):
+		message(st.session_state['responses'][i], key=str(i))
+		dt = st.button('Click to see where is this response from')
+		if dt:
+			details = extract_page_content_and_title(res)
+			st.write(details)
+		if i < len(st.session_state['requests']):
                 message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
 # if response:
