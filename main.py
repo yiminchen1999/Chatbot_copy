@@ -77,7 +77,7 @@ class StreamHandler(BaseCallbackHandler):
 def print_answer_citations_sources(result):
     output_answer = ""
 
-    output_answer += result['answer'] + "\n\n"
+    # output_answer += result['answer'] + "\n\n"
 
     unique_citations = {}
     for doc in result['source_documents']:
