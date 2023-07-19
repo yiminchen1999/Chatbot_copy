@@ -83,7 +83,7 @@ def extract_page_content_and_title(result):
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
 
-# response = ""
+response = ""
 
 if 'responses' not in st.session_state:
     st.session_state['responses'] = ["How can I assist you?"]
