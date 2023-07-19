@@ -77,11 +77,13 @@ def extract_page_content_and_title(result):
 
         # Append the extracted 'page_content' and 'title' to the string
         if page_content and title:
-            extracted_string += f"Title: {title}\n\n\n Content Location: {page_content}\n\n----------------------\n\m"
+            extracted_string += f"Title: {title}\n\n\n Content Location: {page_content}\n\n----------------------\n\n"
 
     return extracted_string
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
+
+response = ""
 
 if 'responses' not in st.session_state:
     st.session_state['responses'] = ["How can I assist you?"]
@@ -103,8 +105,6 @@ response_container = st.container()
 
 textcontainer = st.container()
 
-# response = ""
-
 with textcontainer:
 	query = st.text_input("Query: ", key="input")
 	if query:
@@ -119,9 +119,6 @@ with textcontainer:
 			response = print_answer_citations_sources(res)
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
-	if st.button('Click to see where is this response from'):
-		details = extract_page_content_and_title(res)
-		st.write(details)
 		
 with response_container:
     if st.session_state['responses']:
@@ -131,3 +128,9 @@ with response_container:
             if i < len(st.session_state['requests']):
                 message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
+if response:
+	if st.button('Click to see where is this response from'):
+		details = extract_page_content_and_title(res)
+		st.write(details)
+else:
+	st.write("Please ask a question before you click the button.")
