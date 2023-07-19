@@ -121,9 +121,9 @@ if prompt := st.chat_input():
         qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
                                                    vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                                    verbose=True,
-                                                   return_source_documents=True, 
-                                                   condense_question_prompt = CONDENSEprompt,
-                                                   combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
+                                                   return_source_documents=True)
+                                                   # condense_question_prompt = CONDENSEprompt,
+                                                   # combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR})
         res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
         st.write(response)
