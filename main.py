@@ -108,7 +108,7 @@ if prompt := st.chat_input():
 
     with st.chat_message("assistant"):
         # response = llm(st.session_state.messages)
-        res = qa({"question": st.session_state.messages.content})
+        res = qa({"question": st.session_state.messages[-1].content})
         response = print_answer_citations_sources(res)
         st.session_state.messages.append(ChatMessage(role="assistant", content=response))
 
