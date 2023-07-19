@@ -91,11 +91,11 @@ with textcontainer:
     query = st.text_input("Query: ", key="input")
     if query:
 	    with st.spinner("Processing..."):
-		    time.sleep(5)
+		    time.sleep(1)
 		    st.write("Searching in the database...")
-		    time.sleep(5)
+		    time.sleep(1)
 		    st.write("Generating response...")
-		    time.sleep(5)
+		    time.sleep(1)
 		    st.write("Generating citation...")
 		    res = qa({"question": query})
 		    response = print_answer_citations_sources(res)
