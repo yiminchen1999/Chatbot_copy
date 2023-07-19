@@ -83,8 +83,6 @@ def extract_page_content_and_title(result):
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
 
-detail_info = st.button('Click to see where is this response from')
-
 # response = ""
 
 if 'responses' not in st.session_state:
@@ -126,6 +124,7 @@ with response_container:
 	if st.session_state['responses']:
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
+			detail_info = st.button('Click to see where is this response from', key = '1')
 			if detail_info:
 				details = extract_page_content_and_title(res)
 				st.write(details)
