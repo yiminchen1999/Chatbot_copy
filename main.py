@@ -110,5 +110,5 @@ if prompt := st.chat_input():
         # response = llm(st.session_state.messages)
         res = qa({"question": st.session_state.messages[-1].content})
         # response = print_answer_citations_sources(res)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=res.answer))
+        st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
 
