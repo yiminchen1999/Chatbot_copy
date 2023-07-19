@@ -76,7 +76,7 @@ class StreamHandler(BaseCallbackHandler):
 stream_handler = StreamHandler(st.empty())
 # llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
 
-qa = ConversationalRetrievalChain.from_llm(OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
+qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
                                            vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
                                            verbose=True,
                                            return_source_documents=True,
