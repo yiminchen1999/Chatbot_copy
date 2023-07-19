@@ -65,6 +65,21 @@ def print_answer_citations_sources(result):
 
     return output_answer
 
+def extract_page_content_and_title(result):
+    # Create an empty string to store the extracted content and titles
+    extracted_string = ""
+
+    # Iterate through the 'source_documents' list in the dictionary
+    for doc in result['source_documents']:
+        # Extract the 'page_content' and 'title' from each document
+        page_content = doc.get('page_content')
+        title = doc.metadata.get('title')
+
+        # Append the extracted 'page_content' and 'title' to the string
+        if page_content and title:
+            extracted_string += f"Title: {title}\nContent Location: {page_content}\n\n"
+
+    return extracted_string
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
 
@@ -100,6 +115,9 @@ with textcontainer:
 		    st.write("Generating citation...")
 		    res = qa({"question": query})
 		    response = print_answer_citations_sources(res)
+	    if st.button('Where is this response from?'):
+		    details = extract_page_content_and_title(res)
+		    st.write(details)
 	    st.session_state.requests.append(query)
 	    st.session_state.responses.append(response)
 with response_container:
