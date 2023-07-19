@@ -72,7 +72,7 @@ def extract_page_content_and_title(result):
     # Iterate through the 'source_documents' list in the dictionary
     for doc in result['source_documents']:
         # Extract the 'page_content' and 'title' from each document
-        page_content = doc.get('page_content')
+        page_content = doc.page_content
         title = doc.metadata.get('title')
 
         # Append the extracted 'page_content' and 'title' to the string
