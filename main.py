@@ -118,16 +118,13 @@ def get_res(query):
 with textcontainer:
     query = st.text_input("Query: ", key="input")
     if query:
-        t1 = MyThread(st_spinner,(5,))
-        t2 = MyThread(get_res,(query,))
-        
-        t1.start()
-        t2.start()
-        
-        t1.join()
-        t2.join()
-        
-        response = t1.get_result()
+	    t1 = MyThread(st_spinner,(5,))
+	    t2 = MyThread(get_res,(query,))
+	    t1.start()
+	    t2.start()
+	    t1.join()
+	    t2.join()
+	    response = t1.get_result()
 	    # res = qa({"question": query})
 	    # response = print_answer_citations_sources(res)
 	    st.session_state.requests.append(query)
