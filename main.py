@@ -123,7 +123,7 @@ with textcontainer:
 count = 0
 with response_container:
 	if st.session_state['responses']:
-		dt = st.button('Click to see where is this response from', key = count)
+		dt = st.button('Click to see where is this response from', key = str(count) + '_bt')
 		count += 1
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
