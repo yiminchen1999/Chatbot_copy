@@ -120,6 +120,7 @@ response_container = st.container()
 textcontainer = st.container()
 
 details = ''
+query = ''
 
 with textcontainer:
 	query = st.text_input("Query: ", key="input")
@@ -139,7 +140,7 @@ with response_container:
 				message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
 with st.sidebar:
-	if st.session_state['responses']:
+	if query:
 		with st.spinner("Processing..."):
 			time.sleep(1)
 			st.write("Searching in the database...")
