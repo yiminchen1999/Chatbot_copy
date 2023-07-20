@@ -37,7 +37,6 @@ vectorstore = Pinecone(
 )
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
-st.title("🤖🔬 ChatBot for Learning Sciences Research")
 st.sidebar.title('📖 Information ')
 st.sidebar.write("""
     ###### This project uses LangChain library utilizing OpenAI and Learning Sciences Research Database to act as a research assistant for researchers in related fields.
