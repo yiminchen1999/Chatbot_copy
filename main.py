@@ -120,13 +120,13 @@ with textcontainer:
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
 
-# count = 0
+count = 0
 with response_container:
 	if st.session_state['responses']:
+		dt = st.button('Click to see where is this response from', key = count)
+		count += 1
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
-			dt = st.button('Click to see where is this response from', key = str(i))
-			# count += 1
 			if dt:
 				details = extract_page_content_and_title(res)
 				st.write(details)
