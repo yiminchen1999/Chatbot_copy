@@ -138,15 +138,16 @@ with response_container:
 			if i < len(st.session_state['requests']):
 				message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
 
-with st.siderbar:
-	with st.spinner("Processing..."):
-		time.sleep(1)
-		st.write("Searching in the database...")
-		time.sleep(1)
-		st.write("Generating response...")
-		time.sleep(1)
-		st.write("Formatting response...")
-	st.sidebar.write(details)
+with st.sidebar:
+	if st.session_state['responses']:
+		with st.spinner("Processing..."):
+			time.sleep(1)
+			st.write("Searching in the database...")
+			time.sleep(1)
+			st.write("Generating response...")
+			time.sleep(1)
+			st.write("Formatting response...")
+		st.write(details)
 		# count += 1
 		# try:
 		# 	for i in range(len(st.session_state['responses'])):
