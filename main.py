@@ -45,7 +45,7 @@ st.sidebar.write("""
     ###### [TLT Lab](https://tltlab.org/)
     """)
 
-st.sidebar.title('🌱 Citations will be shown here 🌱')
+st.sidebar.title('🌱 Citations Here 🌱')
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
