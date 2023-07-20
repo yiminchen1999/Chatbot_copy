@@ -156,13 +156,13 @@ if prompt := st.chat_input():
         # st.write(response)
         st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
     with st.sidebar:
-        with st.spinner("Processing..."):
-            time.sleep(1)
-            st.write("Searching in the database...")
-            time.sleep(1)
-            st.write("Generating response...")
-            time.sleep(1)
-            st.write("Formatting response...")
+        # with st.spinner("Processing..."):
+        #     time.sleep(1)
+        #     st.write("Searching in the database...")
+        #     time.sleep(1)
+        #     st.write("Generating response...")
+        #     time.sleep(1)
+        #     st.write("Formatting response...")
         st.write(citations)
-        st.title('🌱 Details 🌱')
+        st.title('🧾 Details 🧾')
         st.write(details)
