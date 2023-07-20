@@ -125,7 +125,7 @@ with response_container:
 	if st.session_state['responses']:
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
-			dt = st.button('Click to see where is this response from', key = Count)
+			dt = st.button('Click to see where is this response from', key = count)
 			count += 1
 			if dt:
 				details = extract_page_content_and_title(res)
