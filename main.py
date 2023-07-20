@@ -117,8 +117,8 @@ with textcontainer:
 			st.write("Generating response...")
 			time.sleep(1)
 			st.write("Formatting response...")
-			res = qa({"question": query})
-			response = print_answer_citations_sources(res)
+		res = qa({"question": query})
+		response = print_answer_citations_sources(res)
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
 
