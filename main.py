@@ -84,7 +84,7 @@ def extract_page_content_and_title(result):
     return extracted_string
 
 st.title("🤖🔬 ChatBot for Learning Sciences Research")
-st.sidebar.title('Pandas AI Agent 🤖 Demo')
+st.sidebar.title('📖 Information ')
 st.sidebar.write("""
     ###### This project uses LangChain library utilizing OpenAI and Learning Sciences Research Database to act as a research assistant for researchers in related fields.
     ###### We are a research team from TLT Lab, Columbia University.
@@ -94,7 +94,7 @@ st.sidebar.write("""
 
 # response = ""
 
-st.sidebar.title('This response is from:')
+st.sidebar.title('🌱 Details 🌱')
 # dt = st.button('This response is from')
 # if response:
 	# if dt:
@@ -119,16 +119,11 @@ response_container = st.container()
 
 textcontainer = st.container()
 
+details = ''
+
 with textcontainer:
 	query = st.text_input("Query: ", key="input")
 	if query:
-		with st.spinner("Processing..."):
-			time.sleep(1)
-			st.write("Searching in the database...")
-			time.sleep(1)
-			st.write("Generating response...")
-			time.sleep(1)
-			st.write("Formatting response...")
 		res = qa({"question": query})
 		response = print_answer_citations_sources(res)
 		details = extract_page_content_and_title(res)
@@ -142,9 +137,16 @@ with response_container:
 			message(st.session_state['responses'][i], key=str(i))
 			if i < len(st.session_state['requests']):
 				message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
-		st.sidebar.write(details)
 
-
+with st.siderbar:
+	with st.spinner("Processing..."):
+		time.sleep(1)
+		st.write("Searching in the database...")
+		time.sleep(1)
+		st.write("Generating response...")
+		time.sleep(1)
+		st.write("Formatting response...")
+	st.sidebar.write(details)
 		# count += 1
 		# try:
 		# 	for i in range(len(st.session_state['responses'])):
