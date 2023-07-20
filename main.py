@@ -126,14 +126,17 @@ with textcontainer:
 with response_container:
 	if st.session_state['responses']:
 		# count += 1
-		for i in range(len(st.session_state['responses'])):
-			message(st.session_state['responses'][i], key=str(i))
-			dt = st.button('Click to see where is this response from')
-			if dt:
-				details = extract_page_content_and_title(res)
-				st.write(details)
-			if i < len(st.session_state['requests']):
-				message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
+		try:
+			for i in range(len(st.session_state['responses'])):
+				message(st.session_state['responses'][i], key=str(i))
+				dt = st.button('Click to see where is this response from')
+				if dt:
+					details = extract_page_content_and_title(res)
+					st.write(details)
+				if i < len(st.session_state['requests']):
+					message(st.session_state["requests"][i], is_user=True, key=str(i) + '_user')
+		except:
+			pass
 
 # if response:
 # 	if st.button('Click to see where is this response from'):
