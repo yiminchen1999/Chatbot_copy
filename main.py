@@ -132,8 +132,8 @@ def extract_page_content_and_title(result):
 
 
 # combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR}
-details = ''
-citations = ''
+# details = ''
+# citations = ''
 
 if prompt := st.chat_input():
     st.session_state.messages.append(ChatMessage(role="user", content=prompt))
@@ -156,13 +156,6 @@ if prompt := st.chat_input():
         # st.write(response)
         st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
     with st.sidebar:
-        # with st.spinner("Processing..."):
-        #     time.sleep(1)
-        #     st.write("Searching in the database...")
-        #     time.sleep(1)
-        #     st.write("Generating response...")
-        #     time.sleep(1)
-        #     st.write("Formatting response...")
         st.write(citations)
         st.title('🧾 Details 🧾')
         st.write(details)
