@@ -36,7 +36,7 @@ vectorstore = Pinecone(
     index, embed.embed_query, text_field
 )
 
-st.title("🤖🔬 ChatBot for Learning Sciences Research")
+st.title("🤖 ChatBot for Learning Sciences Research")
 st.sidebar.title('📖 Information ')
 st.sidebar.write("""
     ###### This project uses LangChain library utilizing OpenAI and Learning Sciences Research Database to act as a research assistant for researchers in related fields.
@@ -45,7 +45,7 @@ st.sidebar.write("""
     ###### [TLT Lab](https://tltlab.org/)
     """)
 
-st.sidebar.title('🌱 Citations 🌱')
+st.sidebar.title('🌱 Citations will be shown here 🌱')
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
