@@ -37,7 +37,7 @@ vectorstore = Pinecone(
 )
 
 st.title("🤖 ChatBot for Learning Sciences Research")
-st.sidebar.title('📖 Information ')
+st.sidebar.title('📖 Information 📖')
 st.sidebar.write("""
     ###### This project uses LangChain library utilizing OpenAI and Learning Sciences Research Database to act as a research assistant for researchers in related fields.
     ###### We are a research team from TLT Lab, Columbia University.
@@ -45,7 +45,7 @@ st.sidebar.write("""
     ###### [TLT Lab](https://tltlab.org/)
     """)
 
-st.sidebar.title('🌱 Citations Here 🌱')
+st.sidebar.title('🌱 Here are Citations 🌱')
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [ChatMessage(role="assistant", content="How can I assist you?")]
@@ -126,7 +126,7 @@ def extract_page_content_and_title(result):
 
         # Append the extracted 'page_content' and 'title' to the string
         if page_content and title:
-            extracted_string += f"Title: {title}\n\n\n Content Location: {page_content}\n\n----------------------\n\n"
+            extracted_string += f"Paper Title: {title}\n\n\n Content Location: {page_content}\n\n----------------------\n\n"
 
     return extracted_string
 
