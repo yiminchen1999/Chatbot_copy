@@ -11,6 +11,8 @@ import os
 import streamlit as st
 import time
 
+disableWidgetStateDuplicationWarning = True
+
 prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, you should say that 'I've searched my database, but I couldn't locate the exact information you're looking for. However, some of the documents did mention part of the keywords as listed. Would you like me to broaden the search and provide related information that might be helpful?', don't try to make up an answer.
 
 {context}
@@ -120,13 +122,13 @@ with textcontainer:
 		st.session_state.requests.append(query)
 		st.session_state.responses.append(response)
 
-count = 0
+# count = 0
 with response_container:
 	if st.session_state['responses']:
-		dt = st.button('Click to see where is this response from', key = str(count) + '_bt')
-		count += 1
+		# count += 1
 		for i in range(len(st.session_state['responses'])):
 			message(st.session_state['responses'][i], key=str(i))
+			dt = st.button('Click to see where is this response from')
 			if dt:
 				details = extract_page_content_and_title(res)
 				st.write(details)
