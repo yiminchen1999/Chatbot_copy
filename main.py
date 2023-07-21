@@ -153,7 +153,7 @@ if prompt := st.chat_input():
         res = qa({"question": st.session_state.messages[-1].content})
         citations = print_answer_citations_sources(res)
         details = extract_page_content_and_title(res)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=citations))
+        st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
         # st.write(response)
         # st.session_state.messages.append(ChatMessage(role="assistant", content=res['answer']))
     with st.sidebar:
