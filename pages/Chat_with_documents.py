@@ -100,7 +100,7 @@ def main():
 
 
     st.subheader("Upload a document")
-    st.file_uploader(
+    uploaded_file = st.file_uploader(
         "Upload document",
         type=["pdf"],
         key="file_uploader",
@@ -112,8 +112,9 @@ def main():
 
     st.session_state["ingestion_spinner"] = st.empty()
 
-    display_messages()
-    st.text_input("Message", key="user_input", on_change=process_input)
+    if uploaded_file:
+        display_messages()
+        st.text_input("Message", key="user_input", on_change=process_input)
 
 
 if __name__ == "__main__":
