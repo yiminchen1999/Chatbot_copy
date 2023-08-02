@@ -4,7 +4,7 @@ import streamlit as st
 from streamlit_chat import message
 from lib.agent import Agent
 
-st.set_page_config(page_title="ChatPDF")
+st.set_page_config(page_title="Chat with your paper")
 
 
 def display_messages():
@@ -53,7 +53,7 @@ def main():
         # else:
         #     st.session_state["agent"] = None
 
-    st.header("ChatPDF")
+    st.header("Chat with your paper")
 
     # if st.text_input("OpenAI API Key", value=st.session_state["OPENAI_API_KEY"], key="input_OPENAI_API_KEY", type="password"):
     #     if (
