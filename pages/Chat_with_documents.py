@@ -91,16 +91,17 @@ def is_openai_api_key_set() -> bool:
 
 
 def main():
-    # if len(st.session_state) == 0:
-    st.session_state["messages"] = []
-    st.session_state["OPENAI_API_KEY"] = os.environ['OPENAI_API_KEY']
-    st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
+    if len(st.session_state) == 0:
+        st.session_state["messages"] = []
+        st.session_state["OPENAI_API_KEY"] = os.environ['OPENAI_API_KEY']
+        st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
 
     st.header("Chat with your paper")
 
 
     st.subheader("Upload a document")
-    uploaded_file = st.file_uploader(
+    # uploaded_file = 
+    st.file_uploader(
         "Upload document",
         type=["pdf"],
         key="file_uploader",
@@ -112,9 +113,9 @@ def main():
 
     st.session_state["ingestion_spinner"] = st.empty()
 
-    if uploaded_file:
-        display_messages()
-        st.text_input("Message", key="user_input", on_change=process_input)
+    # if uploaded_file:
+    display_messages()
+    st.text_input("Message", key="user_input", on_change=process_input)
 
 
 if __name__ == "__main__":
