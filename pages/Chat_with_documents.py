@@ -2,7 +2,53 @@ import os
 import tempfile
 import streamlit as st
 from streamlit_chat import message
-from lib.agent import Agent
+import os
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores import FAISS
+from langchain.chains import ConversationalRetrievalChain
+from langchain.llms import OpenAI
+
+
+class Agent:
+    def __init__(self, openai_api_key: str | None = None) -> None:
+        # if openai_api_key is None, then it will look the enviroment variable OPENAI_API_KEY
+        self.embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+        self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
+        self.llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+
+        self.chat_history = None
+        self.chain = None
+        self.db = None
+
+    def ask(self, question: str) -> str:
+        if self.chain is None:
+            response = "Please, add a document."
+        else:
+            response = self.chain({"question": question, "chat_history": self.chat_history})
+            response = response["answer"].strip()
+            self.chat_history.append((question, response))
+        return response
+
+    def ingest(self, file_path: os.PathLike) -> None:
+        loader = PyPDFLoader(file_path)
+        documents = loader.load()
+        splitted_documents = self.text_splitter.split_documents(documents)
+
+        if self.db is None:
+            self.db = FAISS.from_documents(splitted_documents, self.embeddings)
+            self.chain = ConversationalRetrievalChain.from_llm(self.llm, self.db.as_retriever())
+            self.chat_history = []
+        else:
+            self.db.add_documents(splitted_documents)
+
+    def forget(self) -> None:
+        self.db = None
+        self.chain = None
+        self.chat_history = None
+
 
 st.set_page_config(page_title="Chat with your paper")
 
@@ -50,24 +96,9 @@ def main():
         st.session_state["messages"] = []
         st.session_state["OPENAI_API_KEY"] = os.environ['OPENAI_API_KEY']
         st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
-        # if is_openai_api_key_set():
-        #     st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
-        # else:
-        #     st.session_state["agent"] = None
 
     st.header("Chat with your paper")
 
-    # if st.text_input("OpenAI API Key", value=st.session_state["OPENAI_API_KEY"], key="input_OPENAI_API_KEY", type="password"):
-    #     if (
-    #         len(st.session_state["input_OPENAI_API_KEY"]) > 0
-    #         and st.session_state["input_OPENAI_API_KEY"] != st.session_state["OPENAI_API_KEY"]
-    #     ):
-    #         st.session_state["OPENAI_API_KEY"] = st.session_state["input_OPENAI_API_KEY"]
-    #         if st.session_state["agent"] is not None:
-    #             st.warning("Please, upload the files again.")
-    #         st.session_state["messages"] = []
-    #         st.session_state["user_input"] = ""
-    #         st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
 
     st.subheader("Upload a document")
     st.file_uploader(
@@ -84,9 +115,6 @@ def main():
 
     display_messages()
     st.text_input("Message", key="user_input", on_change=process_input)
-
-    # st.divider()
-    # st.markdown("Source code: [Github](https://github.com/viniciusarruda/chatpdf)")
 
 
 if __name__ == "__main__":
