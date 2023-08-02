@@ -11,8 +11,8 @@ def display_messages():
     st.subheader("Chat")
     if "messages" not in st.session_state:
         st.session_state.messages = []
-    for i, msg in enumerate(st.session_state["messages"]):
-        message(msg, key=str(i))
+    for i, (msg, is_user) in enumerate(st.session_state["messages"]):
+        message(msg, is_user=is_user, key=str(i))
     st.session_state["thinking_spinner"] = st.empty()
 
 
