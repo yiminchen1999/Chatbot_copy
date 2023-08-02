@@ -91,10 +91,10 @@ def is_openai_api_key_set() -> bool:
 
 
 def main():
-    if len(st.session_state) == 0:
-        st.session_state["messages"] = []
-        st.session_state["OPENAI_API_KEY"] = os.environ['OPENAI_API_KEY']
-        st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
+    # if len(st.session_state) == 0:
+    st.session_state["messages"] = []
+    st.session_state["OPENAI_API_KEY"] = os.environ['OPENAI_API_KEY']
+    st.session_state["agent"] = Agent(st.session_state["OPENAI_API_KEY"])
 
     st.header("Chat with your paper")
 
