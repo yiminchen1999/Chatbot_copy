@@ -75,7 +75,7 @@ def main():
         on_change=read_and_save_file,
         label_visibility="collapsed",
         accept_multiple_files=True,
-        disabled=not is_openai_api_key_set(),
+        # disabled=not is_openai_api_key_set(),
     )
 
     st.session_state["ingestion_spinner"] = st.empty()
