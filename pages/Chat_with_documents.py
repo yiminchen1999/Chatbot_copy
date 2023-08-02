@@ -2,7 +2,6 @@ import os
 import tempfile
 import streamlit as st
 from streamlit_chat import message
-import os
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
