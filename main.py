@@ -7,16 +7,21 @@ import pinecone
 from langchain.vectorstores import Pinecone
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.llms import OpenAI
+import glob
+import json
+from datetime import datetime
 from langchain.chains import ConversationalRetrievalChain
 import time
 from langchain import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-pc_api_key = os.environ['pc_api_key']
-pc_env = os.environ['pc_env']
-pc_index = os.environ['pc_index']
+pc_api_key = '0d20881f-80ab-4cf4-83f6-ae1e138abb0c'
+pc_env = 'asia-southeast1-gcp-free'
+pc_index = 'cscl-langchain-remove-duplicate'
 
 model_name = 'text-embedding-ada-002'
 embed = OpenAIEmbeddings(
@@ -117,6 +122,23 @@ def print_answer_citations_sources(result):
 
     return output_answer
 
+
+def get_convo():
+    convo_file = 'convo_history.json'
+    with open(convo_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data, convo_file
+
+
+def store_convo(prompt, answers, citations):
+    data, convo_file = get_convo()
+    current_dateTime = datetime.now()
+    data['{}'.format(current_dateTime)] = []
+    data['{}'.format(current_dateTime)].append({'Question': prompt, 'Answer': answers, 'Citations': citations})
+
+    with open(convo_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
 # combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR}
 
 if prompt := st.chat_input("Ask anything about learning sciences research!"):
@@ -139,6 +161,7 @@ if prompt := st.chat_input("Ask anything about learning sciences research!"):
             res = qa({"question": st.session_state.messages[-1].content})
             citations = print_citations(res)
             answers = print_answer_citations_sources(res)
+            store_convo(st.session_state.messages[-1].content, answers, citations)
             st.write(citations)
 
     st.session_state.messages.append(ChatMessage(role="assistant", content=answers))
