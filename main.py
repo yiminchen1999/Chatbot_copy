@@ -18,7 +18,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+OPENAI_API_KEY = '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'
 pc_api_key = '0d20881f-80ab-4cf4-83f6-ae1e138abb0c'
 pc_env = 'asia-southeast1-gcp-free'
 pc_index = 'cscl-langchain-remove-duplicate'
@@ -123,10 +123,13 @@ def print_answer_citations_sources(result):
     return output_answer
 
 
+
 def get_convo():
     convo_file = 'convo_history.json'
     with open(convo_file, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+        content = f.read()
+    print("Content of convo_history.json:", content)  # Add this line for logging
+    data = json.loads(content)
     return data, convo_file
 
 
@@ -147,25 +150,21 @@ if prompt := st.chat_input("Ask anything about learning sciences research!"):
     # Display user message in chat message container
     st.chat_message("user").write(prompt)
 
+    # Generate and display assistant's response
     with st.chat_message("assistant"):
-        # response = llm(st.session_state.messages)
         stream_handler = StreamHandler(st.empty())
-        # llm = ChatOpenAI(openai_api_key=openai_api_key, streaming=True, callbacks=[stream_handler])
         qa = ConversationalRetrievalChain.from_llm(ChatOpenAI(temperature=0, openai_api_key=OPENAI_API_KEY, streaming=True, callbacks=[stream_handler]),
                                                    vectorstore.as_retriever(), memory=st.session_state.buffer_memory,
-                                                   return_source_documents=True,
-                                                   # combine_docs_chain_kwargs={'prompt': QA_PROMPT_ERROR}
-                                                   )
-
+                                                   return_source_documents=True)
         with st.spinner("searching through learning sciences research papers and preparing citations..."):
             res = qa({"question": st.session_state.messages[-1].content})
             citations = print_citations(res)
             answers = print_answer_citations_sources(res)
             store_convo(st.session_state.messages[-1].content, answers, citations)
             st.write(citations)
+            st.write(answers)  # Display the assistant's answer
 
     st.session_state.messages.append(ChatMessage(role="assistant", content=answers))
-
 
 
 # from langchain.callbacks.base import BaseCallbackHandler
