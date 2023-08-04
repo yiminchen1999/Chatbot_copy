@@ -15,10 +15,9 @@ import time
 from langchain import PromptTemplate
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
-OPENAI_API_KEY = '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'
+
+OPENAI_API_KEY = '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'
 pc_api_key = '0d20881f-80ab-4cf4-83f6-ae1e138abb0c'
 pc_env = 'asia-southeast1-gcp-free'
 pc_index = 'cscl-langchain-remove-duplicate'
